@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Servo Manager</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="connect">Connect</string>
+    <string name="connected">Connected</string>
+    <string name="enter_mac_address">Enter HC-05 MAC Address</string>
+    <string name="speed">Speed: 1000</string>
+    <string name="connecting">Connecting…</string>
+    <string name="not_connected">Not Connected</string>
+    <string name="connection_status">Connection Status</string>
+    <string name="increase_speed">Increase speed</string>
+    <string name="decrease_speed">Decrease speed</string>
+    <string name="real_time_text">Real Time Change send (send changing values):</string>
+    <string name="enable_drone_text">Enable Drone Mode (4 seekBars)</string>
+    <string name="motor_1">Motor 1: 1000</string>
+    <string name="motor_2">Motor 2: 1000</string>
+    <string name="motor_3">Motor 3: 1000</string>
+    <string name="motor_4">Motor 4: 1000</string>
+</resources>

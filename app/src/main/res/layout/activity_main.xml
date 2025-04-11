@@ -1,0 +1,378 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:orientation="vertical"
+    android:layout_margin="16dp">
+
+    <RelativeLayout
+        android:id="@+id/statusSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/status"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/connection_status"
+            android:src="@drawable/red_dot" />
+
+        <TextView
+            android:id="@+id/statusText"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@id/btnDisconnect"
+            android:layout_toEndOf="@id/status"
+            android:gravity="center_vertical"
+            android:text="@string/not_connected" />
+
+        <ImageView
+            android:id="@+id/btnDisconnect"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:clickable="false"
+            android:contentDescription="@string/connect"
+            android:src="@drawable/disconnect"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/connectSection"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/etMacAddress"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@id/btnConnect"
+            android:background="@drawable/rounded_corner"
+            android:hint="@string/enter_mac_address"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:paddingStart="8dp"
+            android:textColor="@color/black"
+            android:textColorHint="#CF000000" />
+
+        <ImageView
+            android:id="@+id/btnConnect"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/connect"
+            android:src="@drawable/connect" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/speedControl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <RelativeLayout
+                android:id="@+id/realTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toStartOf="@id/realTimeSwitch"
+                    android:gravity="center_vertical"
+                    android:text="@string/real_time_text"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/realTimeSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/droneMode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/realTime">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toStartOf="@id/droneModeSwitch"
+                    android:gravity="center_vertical"
+                    android:text="@string/enable_drone_text"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/droneModeSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvSpeed"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:text="@string/speed"
+            android:textSize="24sp" />
+
+        <LinearLayout
+            android:id="@+id/seekBars"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/oneSeekBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/decrease"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/white_circle"
+                    android:contentDescription="@string/increase_speed"
+                    android:padding="2dp"
+                    android:src="@drawable/minus" />
+
+                <SeekBar
+                    android:id="@+id/seekBarSpeed"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toStartOf="@id/increase"
+                    android:layout_toEndOf="@id/decrease"
+                    android:max="1000"
+                    android:progressDrawable="@drawable/seekbar_style"
+                    android:splitTrack="false"
+                    android:thumb="@drawable/custom_thumb" />
+
+                <ImageView
+                    android:id="@+id/increase"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/white_circle"
+                    android:contentDescription="@string/decrease_speed"
+                    android:padding="2dp"
+                    android:src="@drawable/add" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fourSeekBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/motor1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/motor_1"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/decrease1"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_below="@id/motor1"
+                    android:background="@drawable/white_circle"
+                    android:contentDescription="@string/increase_speed"
+                    android:padding="2dp"
+                    android:src="@drawable/minus" />
+
+                <SeekBar
+                    android:id="@+id/seekBarSpeed1"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_below="@id/motor1"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toStartOf="@id/increase1"
+                    android:layout_toEndOf="@id/decrease1"
+                    android:max="1000"
+                    android:progressDrawable="@drawable/seekbar_style"
+                    android:splitTrack="false"
+                    android:thumb="@drawable/custom_thumb" />
+
+                <ImageView
+                    android:id="@+id/increase1"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_below="@id/motor1"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/white_circle"
+                    android:contentDescription="@string/decrease_speed"
+                    android:padding="2dp"
+                    android:src="@drawable/add" />
+
+                <TextView
+                    android:id="@+id/motor2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/seekBarSpeed1"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/motor_2"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/decrease2"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_below="@id/motor2"
+                    android:background="@drawable/white_circle"
+                    android:contentDescription="@string/increase_speed"
+                    android:padding="2dp"
+                    android:src="@drawable/minus" />
+
+                <SeekBar
+                    android:id="@+id/seekBarSpeed2"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_below="@id/motor2"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toStartOf="@id/increase2"
+                    android:layout_toEndOf="@id/decrease2"
+                    android:max="1000"
+                    android:progressDrawable="@drawable/seekbar_style"
+                    android:splitTrack="false"
+                    android:thumb="@drawable/custom_thumb" />
+
+                <ImageView
+                    android:id="@+id/increase2"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_below="@id/motor2"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/white_circle"
+                    android:contentDescription="@string/decrease_speed"
+                    android:padding="2dp"
+                    android:src="@drawable/add" />
+
+                <TextView
+                    android:id="@+id/motor3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/seekBarSpeed2"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/motor_3"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/decrease3"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_below="@id/motor3"
+                    android:background="@drawable/white_circle"
+                    android:contentDescription="@string/increase_speed"
+                    android:padding="2dp"
+                    android:src="@drawable/minus" />
+
+                <SeekBar
+                    android:id="@+id/seekBarSpeed3"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_below="@id/motor3"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toStartOf="@id/increase3"
+                    android:layout_toEndOf="@id/decrease3"
+                    android:max="1000"
+                    android:progressDrawable="@drawable/seekbar_style"
+                    android:splitTrack="false"
+                    android:thumb="@drawable/custom_thumb" />
+
+                <ImageView
+                    android:id="@+id/increase3"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_below="@id/motor3"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/white_circle"
+                    android:contentDescription="@string/decrease_speed"
+                    android:padding="2dp"
+                    android:src="@drawable/add" />
+
+                <TextView
+                    android:id="@+id/motor4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/seekBarSpeed3"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/motor_4"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/decrease4"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_below="@id/motor4"
+                    android:background="@drawable/white_circle"
+                    android:contentDescription="@string/increase_speed"
+                    android:padding="2dp"
+                    android:src="@drawable/minus" />
+
+                <SeekBar
+                    android:id="@+id/seekBarSpeed4"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_below="@id/motor4"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toStartOf="@id/increase4"
+                    android:layout_toEndOf="@id/decrease4"
+                    android:max="1000"
+                    android:progressDrawable="@drawable/seekbar_style"
+                    android:splitTrack="false"
+                    android:thumb="@drawable/custom_thumb" />
+
+                <ImageView
+                    android:id="@+id/increase4"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_below="@id/motor4"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/white_circle"
+                    android:contentDescription="@string/decrease_speed"
+                    android:padding="2dp"
+                    android:src="@drawable/add" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
