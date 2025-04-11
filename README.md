@@ -15,4 +15,10 @@ Perfect for controlling drones, RC vehicles, or any custom multi-motor hardware 
 
 ## Screenshots
 
-![App Screenshot](images/screenshot.jpg)
+| Screenshot 1 | Screenshot 2 |
+| ------------ | ------------ |
+| <img src="images/screenshot_1.jpg" alt="Screenshot 1" style="height: 640px; width:288px;"/> | <img src="images/screenshot_2.jpg" alt="Screenshot 2" style="height: 640px; width:288px;"/> |
+
+| Screenshot 3 | Screenshot 4 |
+| ------------ | ------------ |
+| <img src="images/screenshot_3.jpg" alt="Screenshot 3" style="height: 640px; width:288px;"/> | <img src="images/screenshot_4.jpg" alt="Screenshot 4" style="height: 640px; width:288px;"/> |
