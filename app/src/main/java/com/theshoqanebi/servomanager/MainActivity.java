@@ -35,6 +35,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity implements OnConnectListener, OnDisconnectListener{
     private static final int INITIAL_SPEED = 1000;
@@ -97,6 +99,14 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
             }
         }
     };
+
+    public static boolean isValidMAC(String mac) {
+        // Regular expression for validating MAC address
+        String regex = "^([0-9A-Fa-f]{2}[:\\-]){5}[0-9A-Fa-f]{2}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(mac);
+        return matcher.matches();
+    }
 
 
     @Override
@@ -254,9 +264,12 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
 
     private void connectToBluetooth(OnConnectListener onConnectListener) {
         new Thread(() -> {
-            String address = binding.etMacAddress.getText().toString().trim();
+            String address = binding.etMacAddress.getText().toString().trim().toUpperCase(Locale.ROOT);
             if (address.isEmpty()) {
                 onConnectListener.onConnectFailure("Please enter a MAC address");
+                return;
+            } else if (!isValidMAC(address)) {
+                onConnectListener.onConnectFailure("Invalid MAC address");
                 return;
             }
 
