@@ -237,6 +237,9 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
                 progressValue = 1000 + progress;
                 String label = String.format(Locale.US, "Motor%d: %s", motorNumber, progressValue);
                 textView.setText(label);
+                if (isRealTime) {
+                    sendDroneInfo();
+                }
             }
 
             @Override
@@ -343,6 +346,9 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
                 progressValue = 1000 + progress;
                 String label = "Speed: " + progressValue;
                 binding.tvSpeed.setText(label);
+                if (isRealTime) {
+                    sendSpeed(progressValue);
+                }
             }
 
             @Override
