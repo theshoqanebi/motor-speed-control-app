@@ -16,4 +16,5 @@
     <string name="motor_2">Motor 2: 1000</string>
     <string name="motor_3">Motor 3: 1000</string>
     <string name="motor_4">Motor 4: 1000</string>
+    <string name="developed_by">Developed by @theshoqanebi</string>
 </resources>
