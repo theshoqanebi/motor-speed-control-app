@@ -115,8 +115,10 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         EdgeToEdge.enable(this);
         setContentView(binding.getRoot());
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
-            v.setPadding(binding.getRoot().getPaddingLeft(), binding.getRoot().getPaddingTop(), binding.getRoot().getPaddingRight(), binding.getRoot().getPaddingBottom());
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (view, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
