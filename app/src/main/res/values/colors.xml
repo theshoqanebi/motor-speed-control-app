@@ -2,6 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background_color">#F1EFEC</color>
+    <color name="statusBar">#123458</color>
+    <color name="primaryColor">#F1EFEC</color>
     <color name="colorDekraYellow">#ffff00</color>
     <color name="colorDekraOrange">#ffd401</color>
+    <color name="ic_launcher_background">#212121</color>
 </resources>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/motor_rounded_corner"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/number"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="@string/test_number"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:textColor="@color/black" />
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="2dp"
+        android:layout_height="78dp"
+        android:layout_toEndOf="@+id/number"
+        android:background="@color/black" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/separator"
+        android:layout_marginStart="8dp">
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/cairo"
+            android:gravity="center_vertical"
+            android:text="@string/speed_label"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/speed"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/cairo"
+            android:gravity="center_vertical"
+            android:text="@string/base_speed"
+            android:layout_toEndOf="@id/label"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+
+        <ImageView
+            android:id="@+id/decrease"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_below="@id/label"
+            android:background="@drawable/white_circle"
+            android:contentDescription="@string/increase_speed"
+            android:padding="8dp"
+            android:src="@drawable/minus" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_below="@id/label"
+            android:layout_toStartOf="@id/increase"
+            android:layout_toEndOf="@id/decrease"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <SeekBar
+                android:id="@+id/speedSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:max="1000"
+                android:progressDrawable="@drawable/seekbar"
+                android:splitTrack="false"
+                android:thumb="@drawable/seekbar_thumb" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/increase"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_below="@id/label"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/white_circle"
+            android:contentDescription="@string/decrease_speed"
+            android:padding="8dp"
+            android:src="@drawable/add" />
+    </RelativeLayout>
+</RelativeLayout>
