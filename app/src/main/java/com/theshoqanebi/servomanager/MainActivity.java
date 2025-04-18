@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
     private static final UUID PORT_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     private static final ArrayList<String> permissions = new ArrayList<>();
 
+    private final int STEP = 50;
+
     static {
         permissions.add(Manifest.permission.BLUETOOTH);
         permissions.add(Manifest.permission.BLUETOOTH_ADMIN);
@@ -291,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
         binding.btnDisconnect.setOnClickListener(v -> disconnectBluetooth(this));
 
         binding.increase.setOnClickListener(v -> {
-            binding.speedSeekBar.setProgress(binding.speedSeekBar.getProgress() + 25);
+            binding.speedSeekBar.setProgress(binding.speedSeekBar.getProgress() + STEP);
             int speed = 1000 + binding.speedSeekBar.getProgress();
             String s = "Speed: " + speed;
             binding.tvSpeed.setText(s);
@@ -299,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
         });
 
         binding.decrease.setOnClickListener(v -> {
-            binding.speedSeekBar.setProgress(binding.speedSeekBar.getProgress() - 25);
+            binding.speedSeekBar.setProgress(binding.speedSeekBar.getProgress() - STEP);
             int speed = 1000 + binding.speedSeekBar.getProgress();
             String s = "Speed: " + speed;
             binding.tvSpeed.setText(s);
@@ -394,7 +396,7 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
             if (motor.getId() == (position + 1)) {
                 int currentSpeed = motor.getSpeed();
                 if (currentSpeed < 1000) {
-                    int newSpeed = currentSpeed + 25;
+                    int newSpeed = currentSpeed + STEP;
                     if (newSpeed > 1000) newSpeed = 1000;
                     motor.setSpeed(newSpeed);
                 }
@@ -411,7 +413,7 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
             if (motor.getId() == (position + 1)) {
                 int currentSpeed = motor.getSpeed();
                 if (currentSpeed > 0) {
-                    int newSpeed = currentSpeed - 25;
+                    int newSpeed = currentSpeed - STEP;
                     if (newSpeed < 0) newSpeed = 0;
                     motor.setSpeed(newSpeed);
                 }
