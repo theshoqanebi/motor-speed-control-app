@@ -16,8 +16,6 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
@@ -36,8 +34,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity implements OnConnectListener, OnDisconnectListener, OnMotorSpeedClickListener {
     private static final int INITIAL_SPEED = 1000;
@@ -57,20 +53,6 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
     }
 
     private final ArrayList<Motor> motors = new ArrayList<>();
-    private final ActivityResultLauncher<String[]> permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
-        boolean all = true;
-        for (String permission : permissions) {
-            if (!Boolean.TRUE.equals(result.getOrDefault(permission, false))) {
-                all = false;
-                break;
-            }
-        }
-        if (all) {
-            Toast.makeText(this, "All permissions granted!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Please grant all permissions for proper functionality.", Toast.LENGTH_SHORT).show();
-        }
-    });
     private final Adapter adapter = new Adapter(motors, this);
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private LoadingDialog dialog;
@@ -92,14 +74,6 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
     private BluetoothSocket bluetoothSocket;
     private OutputStream outputStream;
 
-    public static boolean isValidMAC(String mac) {
-        // Regular expression for validating MAC address
-        String regex = "^([0-9A-Fa-f]{2}[:\\-]){5}[0-9A-Fa-f]{2}$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(mac);
-        return matcher.matches();
-    }
-
     private void initMotors() {
         motors.clear();
         motors.add(new Motor(1, 0));
@@ -111,18 +85,6 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
     private void resetRecyclerView() {
         initMotors();
         adapter.resetAll();
-    }
-
-    private boolean isPermitted() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            return ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED;
-        } else {
-            return true;
-        }
-    }
-
-    private void requestPermission() {
-        permissionLauncher.launch(permissions.toArray(new String[0]));
     }
 
     @Override
@@ -180,19 +142,19 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
                 return;
             }
         }
-        sendSpeed(json.toString());
+        this.sendDataToSerialBluetooth(json.toString());
     }
 
     private void connectToBluetooth(OnConnectListener onConnectListener) {
         new Thread(() -> {
-            String address = binding.macAddress.getText().toString().trim().toUpperCase(Locale.ROOT);
+            String address = Utils.capitalize(binding.macAddress.getText());
             if (address.isEmpty()) {
                 onConnectListener.onConnectFailure("Please enter a MAC address");
                 return;
-            } else if (!isValidMAC(address)) {
+            } else if (!Utils.isValidMAC(address)) {
                 onConnectListener.onConnectFailure("Invalid MAC address");
                 return;
-            } else if (!isBluetoothEnabled()) {
+            } else if (!Utils.isBluetoothEnabled()) {
                 onConnectListener.onConnectFailure("Bluetooth not enabled");
                 return;
             }
@@ -201,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
 
             try {
                 if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermission();
+                    Utils.requestPermission(this, permissions.toArray(new String[0]));
                     onConnectListener.onConnectFailure("Not permitted");
                     return;
                 }
@@ -229,16 +191,8 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
         }).start();
     }
 
-    private boolean isBluetoothEnabled() {
-        if (bluetoothAdapter == null) {
-            return false;
-        } else {
-            return bluetoothAdapter.isEnabled();
-        }
-    }
-
     private boolean checkForBluetoothErrors() {
-        if (!isBluetoothEnabled()) {
+        if (!Utils.isBluetoothEnabled()) {
             Toast.makeText(this, "Bluetooth not enabled", Toast.LENGTH_LONG).show();
             return true;
         } else if (bluetoothSocket == null || !bluetoothSocket.isConnected()) {
@@ -251,7 +205,20 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
         return false;
     }
 
-    private void sendSpeed(int speed) {
+    private void sendDataToSerialBluetooth(String speed) {
+        if (checkForBluetoothErrors()) {
+            return;
+        }
+        try {
+            String message = speed + "\n";
+            outputStream.write(message.getBytes());
+            outputStream.flush();
+        } catch (IOException e) {
+            Toast.makeText(this, "Send Failed: " + e, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void sendDataToSerialBluetooth(int speed) {
         if (checkForBluetoothErrors()) {
             return;
         }
@@ -267,22 +234,9 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
         }
     }
 
-    private void sendSpeed(String speed) {
-        if (checkForBluetoothErrors()) {
-            return;
-        }
-        try {
-            String message = speed + "\n";
-            outputStream.write(message.getBytes());
-            outputStream.flush();
-        } catch (IOException e) {
-            Toast.makeText(this, "Send Failed: " + e, Toast.LENGTH_LONG).show();
-        }
-    }
-
     private void init() {
-        if (!isPermitted()) {
-            requestPermission();
+        if (!Utils.isPermitted(this)) {
+            Utils.requestPermission(this, permissions.toArray(new String[0]));
         }
 
         binding.btnConnect.setOnClickListener(v -> {
@@ -297,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
             int speed = 1000 + binding.speedSeekBar.getProgress();
             String s = "Speed: " + speed;
             binding.tvSpeed.setText(s);
-            sendSpeed(speed);
+            sendDataToSerialBluetooth(speed);
         });
 
         binding.decrease.setOnClickListener(v -> {
@@ -305,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
             int speed = 1000 + binding.speedSeekBar.getProgress();
             String s = "Speed: " + speed;
             binding.tvSpeed.setText(s);
-            sendSpeed(speed);
+            sendDataToSerialBluetooth(speed);
         });
 
         binding.speedSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -317,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
                 String label = "Speed: " + progressValue;
                 binding.tvSpeed.setText(label);
                 if (isRealTime) {
-                    sendSpeed(progressValue);
+                    sendDataToSerialBluetooth(progressValue);
                 }
             }
 
@@ -327,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements OnConnectListener
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                sendSpeed(progressValue);
+                sendDataToSerialBluetooth(progressValue);
             }
         });
 
